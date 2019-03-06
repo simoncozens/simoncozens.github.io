@@ -11,6 +11,8 @@ description: Simon Cozens technical blog
 # URL of your avatar or profile pic (you could use your GitHub profile pic)
 avatar: https://en.gravatar.com/userimage/11093864/2390fdeeb42c20b98db72123f6a76315.jpg
 
+theme: _slate
+
 #
 # Flags below are optional
 #
