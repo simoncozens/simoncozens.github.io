@@ -1,7 +1,8 @@
 ---
-published: false
+layout: post
+title: Neural font design
+published: true
 ---
-## Neural font design
 
 I've been messing around recently with the idea of getting a neural network to spit out characters. It's not something I want to spend a lot of time on and develop into something serious, but it's quite a fun little project anyway.
 
