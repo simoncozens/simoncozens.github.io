@@ -16,7 +16,7 @@ Previously `dombreak` grabbed the text, turned all the whitespace into glue node
 
 The whole point of this particular exercise was to render the text flush, with full justification, expanding the glyphs in order to get the lines to line up:
 
-![Screenshot 2019-03-10 at 20.06.24.png]({{site.baseurl}}/_posts/Screenshot 2019-03-10 at 20.06.24.png)
+![Screenshot 2019-03-10 at 20.06.24.png](https://github.com/simoncozens/simoncozens.github.io/raw/master/_posts/Screenshot%202019-03-10%20at%2020.06.24.png)
 
 All it takes to do this is to *not* add the very stretchy glue before hard breaks and paragraph endings, so that was easy too.
 
@@ -30,7 +30,7 @@ This was a key one. Previously I had assumed that all glyphs in the script stret
 
 The final result was quite pleasant:
 
-![armenian.gif]({{site.baseurl}}/_posts/armenian.gif)
+![armenian.gif](https://github.com/simoncozens/simoncozens.github.io/raw/master/_posts/armenian.gif)
 
 Jor raised a few more interesting questions for future development of `newbreak` and `dombreak`:
 
