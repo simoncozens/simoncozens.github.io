@@ -13,6 +13,8 @@ avatar: https://en.gravatar.com/userimage/11093864/2390fdeeb42c20b98db72123f6a76
 
 theme: jekyll-theme-slate
 
+github:
+  is_project_page: false
 #
 # Flags below are optional
 #
