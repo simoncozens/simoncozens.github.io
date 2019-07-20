@@ -1,6 +1,7 @@
 ---
-published: false
+published: true
 title: Neural Kerning Log
+layout: post
 ---
 I know I said I wasn't going to do anything more about kerning/spacing with neural networks. But, well, I have a GPU and it's bored. I have also realised that, for the sake of posterity (and to stop myself from going around in circles doing things I've already tried), I should write up all the things I've learned and what has worked (very little) and what hasn't (pretty much everything).
 
@@ -41,11 +42,33 @@ But looking back on it, atokern taught me a *bunch* of lessons like:
 
 The unbalanced classes problem was the main reason why I gave up and rethought. Seeing the problem as a gestalt, the issue is not "how much does this pair need kerning?" but "how much space should be between these two glyphs to make them look right?" So atospace dropped the sidebearings and just measured the contours of the glyphs, and tried a regression approach to find the right spacing.
 
-I still hadn't really solved the scaling and positioning problems at this stage. And unconstrained regression problems seem to be horribly unstable. (No, I don't believe my "xo" pair needs to be 700 units apart.) I tried using sigmoid activation and scaling the output from 0em to 1em, and it would converge beautifully on the fonts that I trained and tested it on; and then I'd apply it to an unseen font from my validation set, and suddenly it would predict that *every pair* should be set at 1em apart, or something crazy like that.
+I still hadn't really solved the scaling and positioning problems at this stage. And unconstrained regression problems seem to be horribly unstable. (No, I don't believe my "xo" pair needs to be 700 units apart.)  I also find it hard to evaluate the performance of regression systems. I tried using sigmoid activation and scaling the output from 0em to 1em, and it would converge beautifully on the fonts that I trained and tested it on, and the loss goes down to 0.002. That sounds pretty low! So I'd apply it to an unseen font from my validation set, and suddenly it would predict that *every pair* should be set at 1em apart, or something crazy like that. I tried making custom metrics, where we looked at what percentage of the predictions were within 5 units of the correct answer (but see "trust" and "subjectivity" above), but I never managed to get any validation results more than about 35%.
 
 So I gave up.
 
 ## More recent experiments
 
-One thing which really helped to define the problem better was writing the [tensorfont](https://simoncozens.github.io/tensorfont/index.html) library.
+One thing which really helped to define the problem better was writing the [tensorfont](https://simoncozens.github.io/tensorfont/index.html) library. This helps with the problem of converting glyphs to numpy arrays, and also forced me to think about the scaling and positioning issues. It also provided me with a toolkit to create a number of experiments in rapid succession. None of them worked.
 
+* I did atospace again, just using tensorfont to extract the contour information. Nope.
+* Then I did it again, but with correct positioning and scaling. Nope.
+* Instead of feeding the contours in, I fed each glyph image (left, right, key glyph) into a separate convolutional network, concatenated them together and stirred. Nope.
+* Then I fed in the combined image `Ho[left][right]oH`, adjusting the spacing artificially between the left and right pair, and made a discriminator tell me whether or not it was correctly kerned.
+
+Ah. Now, that one wasn't too bad. I like the idea of having a command line tool that takes your font and says "Hey, just have a check over these pairs, will you?" The problem, here, though was sensitivity and subjectivity. If you train the discriminator on a mix of correctly kerned and *obviously bad* pairs (like when there are clashes or the word image breaks down), it's very easy to train and converges beautifully, but it is essentially useless because it only tells you about obviously bad pairs. But that's exciting, right, because it's getting the idea of what makes an image well-kerned or badly-kerned? So all you need to do is adjust the range of spacing that you're artificially introducing, and train it on a mix of correctly kerned and *subtly bad* pairs. But then it'll start telling you that your validation set is subtly bad, even when it isn't. Head, meet wall.
+
+Today's approach is "here's a word image. how much do we need to shift this pair to make it look fitted?" I feed it a mix of well-kerned pairs and pairs which have been artificially adjusted by a random value of -80 units to 80 units, and scale that down to -1 and 1, adding a tanh activation on the end.
+
+It seems to converge quite nicely, so I feed it a new font it hasn't seen before, and it predicts:
+
+```
+(a, a) -1.0
+(a, b) -1.0
+(a, c) -1.0
+(a, d) -1.0
+(a, e) -1.0
+(a, f) -1.0
+...
+```
+
+I hate neural networks.
