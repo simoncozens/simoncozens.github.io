@@ -2,7 +2,6 @@
 published: true
 layout: post
 ---
-# January Update
 
 This update just went out to [GitHub Sponsors](https://github.com/sponsors/simoncozens).
 
@@ -39,4 +38,3 @@ As I write and work out how best to explain things, I also come up with small ut
 Finally, after a year, @calebmaclennan and I (mostly Caleb, to be fair) released a new version of SILE. This one mainly has internal refactorings, which will stand us in good stead for future development. The build and test systems have been massively overhauled, and SILE will now download the Lua modules it needs on installation. Caleb has also been working on packaging SILE into a Docker container. More details are on the [web site](https://sile-typesetter.org).
 
 Thanks again for your support this month.
-
