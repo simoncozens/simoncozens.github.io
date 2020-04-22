@@ -99,7 +99,7 @@ If we had a higher level language which could *reason about the font*, though, w
 
 > Create a kern for the sequence `<high initial glyph> <space> <low final glyph>` which brings the ink of the main paths a distance of at least 50 units at their closest point.
 
-![Smart Kern](proposal-5-autokern.png){ height=120px }
+![Smart Kern](https://github.com/simoncozens/simoncozens.github.io/raw/master/_posts/proposal-5-autokern.png)
 
 A smart feature compiler will then look at the font, work out the appropriate combinations of glyphs, look at their shapes, and generate the appropriate `PairPosFormat1` or `PairPosFormat2` "instructions" to achieve the goal. Now we're specifying *intent*, not *effect* - what we want, not how to do it.
 
@@ -109,7 +109,7 @@ A smart feature compiler will then look at the font, work out the appropriate co
 
 Well, yes and no. Modern compilers don't just take in one language and output instructions for one CPU. Rather, they come in three parts: a front-end (which understands a language), a back-end (which knows how to generate machine code for a particular CPU), and a... middle-end.
 
-![compiler architecture](compiler.png)
+![compiler architecture](https://github.com/simoncozens/simoncozens.github.io/raw/master/_posts/compiler.png)
 
 This separation allows the compiler to support multiple languages on the front-end and multiple CPUs on the back-end. The idea is that the front-end parses the incoming program into a generic *intermediate language* - a way of representing any program that isn't dependent on the structures of any *particular* programming language nor any *particular* CPU's instruction set. Instead, it represents the program in terms of an idealised set of operations. The middle-end then performs common optimizations on this intermediate representation of the program, and the back-end spits out the machine code for the CPU you're planning to use.
 
