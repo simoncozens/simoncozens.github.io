@@ -20,7 +20,7 @@ To attain this, I went through a deliberate process of familiarisation. The firs
 
 A very basic step one: I printed off a number of different charts of the Arabic/Urdu character set and pinned them on my wall. Here's one:
 
-![]({{site.baseurl}}//images/arabic1.jpg)
+![](https://simoncozens.github.io/images/arabic1.jpg)
 
 This one is colour-coded according to joining group. Others were separated out by characteristic. (rasm / dots above / dots below / etc.)
 
