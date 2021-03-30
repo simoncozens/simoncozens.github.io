@@ -1,8 +1,8 @@
 ---
 published: true
 layout: post
+title: Better Fonts Through Test-Driven Development
 ---
-## Better Fonts Through Test-Driven Development
 
 Fonts are, increasingly, pretty complex pieces of software. I work primarily on the layout side, creating (both manually and semi-automatically, through scripting) large collections of OpenType shaping rules for fonts with complex layout requirements. But writing the rules is half the battle. How do you know they work? How do you ensure that, at the end of the day, the collection of rules you've written actually produces the results that you expect, in all the cases that you expect?
 
