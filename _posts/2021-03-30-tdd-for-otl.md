@@ -165,3 +165,14 @@ Running these tests gives me *confidence* that the font does what I expect it to
 For anyone working with complex layout rules, TDD is going to be an absolute gamechanger.
 
 Shape your text with *confidence* using test-driven development!
+
+#### Examples
+
+* [github.com/daltonmaag/scope-one](https://github.com/daltonmaag/scope-one) ([test.json](https://github.com/daltonmaag/scope-one/blob/master/test/test.json))
+
+#### Related projects
+
+There are also some attempts to apply the _Test Driven Development_ philosophy to other aspects of typeface design. 
+
+* https://github.com/SorkinType/EQX
+* https://github.com/typefacedesign/document-driven-typedesign
