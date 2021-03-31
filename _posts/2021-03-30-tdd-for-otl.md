@@ -152,7 +152,7 @@ For each of these 144 strings, we check whether any forbidden glyphs were produc
 
 After a while, you will have a directory full of JSON files with your tests in. (I find it useful to have separate JSON files to test different things; one to test regressions for rules I am creating, one to test sequences for forbidden glyphs, one to test sequences for collisions. It's even useful to have separate files for particular families of rules - for example, I have one called `medial-ra-and-friends.json` which exhaustively tests that medial ra shapes in a variety of different circumstances.)
 
-You have your test files. You have your `fontbakery.toml` config file. Now to run the test!
+You have your test files. You have your `fontbakery.config` YAML file. Now to run the test!
 
 ```
 fontbakery check-profile --config fontbakery.config --html report.html fontbakery.profiles.shaping My-Font.ttf
