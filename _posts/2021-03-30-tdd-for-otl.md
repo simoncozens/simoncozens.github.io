@@ -44,7 +44,7 @@ Obviously, this font is not done yet. But when the report tells me that all thos
 
 OK, so you're convinced and you want in. What do you need to do?
 
-* First, you need to get a copy of fontbakery which contains my shaping tests! These aren't merged into the fontbakery main branch yet, but for the time being, you can get it [from here](https://github.com/simoncozens/fontbakery/tree/shaping).
+* First, you need to get a copy of fontbakery which contains shaping tests! These aren't merged into the fontbakery main branch yet, but for the time being, you can get it [from here](https://github.com/simoncozens/fontbakery/tree/shaping).
 
 * Next, you will need to tell fontbakery where your tests will live. Create a fontbakery configuration file in either TOML or YAML format, (I'm going to use YAML here.) which looks like this:
 
