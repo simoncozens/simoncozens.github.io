@@ -22,7 +22,7 @@ The idea behind TDD, test-driven development, is pretty simple:
 
 The order is important here. You first write a test which fails, then you make it pass. You build the rules *around* the behaviour you want, and *every* rule has a test. If you do this process for every piece of behaviour you want to see, then you end up constructing a rigorous test suite, full of all the possible situations that you care about. This means that you can determine, scientifically, in an automated way, whether or not your code is behaving properly.
 
-I don't think this has really been done for fonts before. We make proofs containing the sample texts we're interested in, and we look at them by eye, and see if there are any problems. But this is error-prone. Yes, in one sense, the eye is the ultimate arbiter of the font. But the eye gets tired, or falls into patterns. How do we know we covered all the rules? How do we know we covered all the possible combinations of input text? How do we know that we haven't got too familiar with what we're looking at that we haven't missed a glaring mistake? A more mechanical approach can find problems that the eye might miss.
+I don't think this is common for font projects. Typically, we make proofs containing the sample texts we're interested in, and we look at them by eye, and see if there are any problems. But this is error-prone. Yes, in one sense, the eye is the ultimate arbiter of the font. But the eye gets tired, or falls into patterns. How do we know we covered all the rules? How do we know we covered all the possible combinations of input text? How do we know that we haven't got too familiar with what we're looking at that we haven't missed a glaring mistake? A more mechanical approach can find problems that the eye might miss.
 
 ### What does it look like?
 
@@ -31,6 +31,8 @@ For my font development, I use an automated test harness for OpenType shaping th
 * That a given string, when run through a shaping engine, produces a particular, predetermined result. I can test that ကြ produces `medialRa-myanmar.w2=0+216|ka-myanmar=0+1040` but that ကြု produces `medialRa_uMark-myanmar.w2=0+216|ka-myanmar=0+1040`.
 * That a given string *or pattern of strings* does not produce any glyphs in a given set. For example, `Consonant U+1039 Consonant` should produce a stacked sequence, but if the shaping output ever includes the visible virama `virama-myanmar`, then the stacking has failed. 
 * That a given string *or pattern of strings* does not create any glyphs which collide with other glyphs. In a Nastaliq font, `ThingsWithDotsBelow Kasra? ThingsWithDotsBelow Kasra? TrickyFinalCharacters` should not create any clashes.
+
+The current system in fontbakery is builds on two previous efforts, my own [gnipahs](https://github.com/simoncozens/font-engineering/blob/master/gnipahs.py) which using Harfbuzz and collidoscope to check shaping expectations and detect collisions, and Nikolaus Waxweiler's work (in a private project) which added robust JSON syntax to the shaping files and more functionality such as the ability to select OpenType features.
 
 These three tests are run within Google Fonts' [fontbakery](https://github.com/googlefonts/fontbakery) font QA tool, and any test failures are reported as part of fontbakery's HTML report.
 
@@ -44,7 +46,11 @@ Obviously, this font is not done yet. But when the report tells me that all thos
 
 OK, so you're convinced and you want in. What do you need to do?
 
-* First, you need to get a copy of fontbakery which contains my shaping tests! These aren't merged into the fontbakery main branch yet, but for the time being, you can get it [from here](https://github.com/simoncozens/fontbakery/tree/shaping).
+* First, you need to get a copy of fontbakery, which contains the shaping test suite runner! This is not *quite* released yet, but you can get it from git:
+
+```
+pip3 install -U git+https://github.com/googlefonts/fontbakery@4d680af
+```
 
 * Next, you will need to tell fontbakery where your tests will live. Create a fontbakery configuration file in either TOML or YAML format, (I'm going to use YAML here.) which looks like this:
 
@@ -165,3 +171,11 @@ Running these tests gives me *confidence* that the font does what I expect it to
 For anyone working with complex layout rules, TDD is going to be an absolute gamechanger.
 
 Shape your text with *confidence* using test-driven development!
+
+#### Related projects
+
+ There are also some attempts to apply the _Test Driven Development_ philosophy to other aspects of typeface design. 
+
+* https://github.com/SorkinType/EQX
+* https://github.com/typefacedesign/document-driven-typedesign
+* Dalton Maag's "Scope One": [github.com/daltonmaag/scope-one](https://github.com/daltonmaag/scope-one) (Please note their JSON test suites are a different format to the ones described above, so don't try using them with fontbakery!)
