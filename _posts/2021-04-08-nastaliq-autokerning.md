@@ -62,7 +62,7 @@ Now *all we need to do*, right, is just need to compute the height of every sing
 
 Again, let's break this down into two subproblems.
 
-What is the "height" of the left glyph in a pair, that is, the height of the initial (rightmost) glyph in a sequence? From the picture below, we can see that we just *sum* the rise - the distance between exit and entry anchors - for all of the glyphs in the sequence after the initial glyph.
+What is the "height" of the left glyph in a pair, that is, the height of the initial (rightmost) glyph in a sequence? From the picture below, we can see that we just sum the *rise* - the distance between exit and entry anchors - for all of the glyphs in the sequence after the initial glyph.
 
 <img src="https://github.com/simoncozens/simoncozens.github.io/raw/master/_posts/nastaliq-kerning-6.png">
 
