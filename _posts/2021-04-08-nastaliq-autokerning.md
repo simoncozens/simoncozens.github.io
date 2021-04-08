@@ -58,7 +58,9 @@ And that's it; we basically implement [Bubblekern](https://tosche.net/blog/bubbl
 
 So we can make one kern for a pair of glyphs (and by iteration we can create a kern table for all relevant pairs) *if* we know the third variable, the height of the left-hand glyph. Let's assume, again by magic, that we have at our disposal *all* of the kern tables, one table for each of the heights that we're going to need. We have a kern table which applies at height=172 and a kern table which applies at height=613 units, and every other height of every possible word.
 
-Now *all we need to do*, right, is just need to compute the height of every single possible word, and create a contextual chaining rule which dispatches to the appropriate kern table. Again, let's break this down into two subproblems.
+Now *all we need to do*, right, is just need to compute the height of every single possible word, and create a contextual chaining rule which dispatches to the appropriate kern table. Easy!
+
+Again, let's break this down into two subproblems.
 
 What is the "height" of the left glyph in a pair, that is, the height of the initial (rightmost) glyph in a sequence? From the picture below, we can see that we just *sum* the rise - the distance between exit and entry anchors - for all of the glyphs in the sequence after the initial glyph.
 
