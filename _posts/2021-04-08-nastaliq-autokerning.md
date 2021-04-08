@@ -4,7 +4,7 @@ layout: post
 title: Automated Kerning for Nastaliq
 ---
 
-One of the funny things about programming is that you can take an operation which is fundamentally pretty dumb stupid, and by doing it in an automated and methodical fashion, come with with a result that is quite impressive. For example, the whole premise of machine learning is that if you get things wrong *millions* of times you eventually start getting them less wrong. We can start playing a game with completely random moves and no built-in understanding of the rules, and just by doing things wrong enough for long enough, come up with a program which can defeat world class go players.
+One of the funny things about programming is that you can take an operation which is fundamentally pretty dumb stupid, and by doing it in an automated and methodical fashion, come up with a result that is quite impressive. For example, the whole premise of machine learning is that if you get things wrong *millions* of times you eventually start getting them less wrong. We can start playing a game with completely random moves and no built-in understanding of the rules, and just by doing things wrong enough for long enough, come up with a program which can defeat world class go players.
 
 I recently demoed some code which automatically creates kern rules to compact the word-shapes of a Nastaliq font, like this:
 
