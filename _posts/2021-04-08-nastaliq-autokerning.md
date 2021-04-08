@@ -4,7 +4,7 @@ layout: post
 title: Automated Kerning for Nastaliq
 ---
 
-One of the funny things about programming is that you can take an operation which is fundamentally pretty dumb stupid, and by doing it in an automated and methodical fashion, come with with a result that is quite impressive. For example, the whole premise of machine learning is that if you get things wrong *millions* of times you eventually start getting them less wrong. We can start playing a game with completely random moves and no built-in understanding of the rules, and just by doing things wrong enough for long enough, come up with a program to defeat world class go players.
+One of the funny things about programming is that you can take an operation which is fundamentally pretty dumb stupid, and by doing it in an automated and methodical fashion, come with with a result that is quite impressive. For example, the whole premise of machine learning is that if you get things wrong *millions* of times you eventually start getting them less wrong. We can start playing a game with completely random moves and no built-in understanding of the rules, and just by doing things wrong enough for long enough, come up with a program which can defeat world class go players.
 
 I recently demoed some code which automatically creates kern rules to compact the word-shapes of a Nastaliq font, like this:
 
@@ -48,11 +48,11 @@ Conceptually, this is very simple. We take the Bezier paths for the two glyphs, 
 
 <img src="https://github.com/simoncozens/simoncozens.github.io/raw/master/_posts/nastaliq-kerning-5.png" width=640>
 
-And really it is as dumb-stupid as that. I take the Bezier paths, keep moving the right glyph left, check the distance at the closest point - which I do in a very dumb-stupid way by measuring the distance between every segment on one path and every segment on the other and finding the minimum, because computer run time is cheap and programmer thinking time is expensive - and repeat, stopping when I have got to the appropriate distance.
+And it really is as dumb-stupid as that. I take the Bezier paths, keep moving the right glyph left, check the distance at the closest point - which I do in a very dumb-stupid way by measuring the distance between every segment on one path and every segment on the other and finding the minimum, because computer run time is cheap and programmer thinking time is expensive - and repeat, stopping when I have got to the appropriate distance.
 
 There's only one slightly clever thing here, which is that glyphs above a certain height are *never* going to come within 200 units of each other, so you have to decide a maximum distance at which to stop. You probably don't want to go much "deeper" into the "hole" than 50% of the width of the left hand glyph, because you'll mess up anything that comes to the right, so we set a stopping distance as a percentage of the width of the left-hand glyph.
 
-And that's it; we basically implement [https://tosche.net/blog/bubblekern](Bubblekern) in the stupidest possible way.
+And that's it; we basically implement [Bubblekern](https://tosche.net/blog/bubblekern) in the stupidest possible way.
 
 ### Determining all the kerns
 
@@ -93,7 +93,7 @@ We make four more approximations to simplify matters.
 
 <img src="https://github.com/simoncozens/simoncozens.github.io/raw/master/_posts/nastaliq-kerning-7.png" width=640>
 
-We still have to compute seven complete kern tables, each containing kern values for every initial glyph against every final/isolate - and it still takes around half an hour on my computer to produce - but when compressed they come to around 11,000 lines of feature code, which is a lot more than the several *million* lines I started this experiment with.
+We still have to compute seven complete kern tables, each containing kern values for every initial glyph against every final/isolate - and it still takes around half an hour on my computer to produce - but when compressed they come to around 11,000 lines of feature code, which is a lot fewer than the several *million* lines I started this experiment with.
 
 And the result is quite pleasant
 
