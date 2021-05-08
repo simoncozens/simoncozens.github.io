@@ -65,7 +65,7 @@ But the *instances* in the `fvar` table are *also* in userspace coordinates, whi
 
 These too are values presented to users. User values, userspace.
 
-Right. Now we get on to defining the relationship between userspace and designspace. Or is it the other way around? In the `.designspace` file, the `mapping` elements on an `axis` element map an `input` in *userspace* to an `output` in *designspace* (those element names aren't helpful, but it's too late now):
+Right. Now we get on to defining the relationship between userspace and designspace. (Or is it the other way around?) In the `.designspace` file, the `mapping` elements on an `axis` element map an `input` in *userspace* to an `output` in *designspace* (those attribute names aren't helpful, but it's too late now):
 
 ```xml
     <axis tag="wght" name="Weight" minimum="200" maximum="1000" default="200">
