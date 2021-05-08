@@ -150,7 +150,7 @@ And so on. Make sure that you add `avar` mappings for minimum, default and maxim
 
 For bonus points: `fontTools.designspaceLib.Axis` has two functions, `map_forward` and `map_backward`. *Which way is which?*
 
-```Python console
+```python
 >>> from fontTools.designspaceLib import DesignSpaceDocument
 >>> ds = DesignSpaceDocument.fromfile("master_ufo/Nunito.designspace")
 >>> ds.axes[0].map_forward(200)
