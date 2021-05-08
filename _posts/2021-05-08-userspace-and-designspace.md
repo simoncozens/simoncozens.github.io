@@ -6,7 +6,7 @@ title: Userspace and designspace - a note to self
 
 Whenever I play with (or make) variable fonts, I get *hopelessly* confused about the difference between userspace and designspace coordinates. This is me trying to figure it out once and for all, and writing down what I find so that I won't get confused next time.
 
-Variable fonts have axes, and those axes have points on them to determine the location. Those points have two different coordinate systems: userspace is, unsurprisingly, what you show to the user, and designspace is, unsurprisingly, the one that the designer uses. Sometimes they're the same. But sometimes they're not. Sometimes you want to give the user a different range of values to select. I'm going to use [Nunito](https://fonts.google.com/specimen/Nunito) as my example for this piece.
+Variable fonts have axes, and those axes have points on them to determine the location. Those points have two different coordinate systems: userspace is, unsurprisingly, what you show to the user, and designspace is, also unsurprisingly, the one that the designer uses. Sometimes they're the same. But sometimes they're not. Sometimes you want to give the user a different range of values to select. I'm going to use [Nunito](https://fonts.google.com/specimen/Nunito) as my example for this piece.
 
 Nunito's weight axis, in the design, is based on the stem width. So the light end, the axis minimum, is 42 because the stem is 42 units wide, while the heavy end, the axis maximum is 208 units wide. These are the designspace coordinates.
 
@@ -65,7 +65,7 @@ But the *instances* in the `fvar` table are *also* in userspace coordinates, whi
 
 These too are values presented to users. User values, userspace.
 
-Right. Now we get on to defining the relationship between userspace and designspace. Or is it the other way around? In the `.designspace` file, the mapping elements on an `axis` element map an `input` in *userspace* to an `output` in *designspace* (those names aren't helpful, but it's too late now):
+Right. Now we get on to defining the relationship between userspace and designspace. Or is it the other way around? In the `.designspace` file, the `mapping` elements on an `axis` element map an `input` in *userspace* to an `output` in *designspace* (those element names aren't helpful, but it's too late now):
 
 ```xml
     <axis tag="wght" name="Weight" minimum="200" maximum="1000" default="200">
