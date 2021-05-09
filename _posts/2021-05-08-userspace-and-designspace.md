@@ -10,7 +10,7 @@ Variable fonts have axes, and those axes have points on them to determine the lo
 
 Nunito's weight axis, in the design, is based on the stem width. So the light end, the axis minimum, is 42 because the stem is 42 units wide, while the heavy end, the axis maximum, is 208 units wide. These are the designspace coordinates.
 
-But we want to show the user a more CSS-friendly weight axis, running from 200 to 1000. The sliders on our UI will run from 200 to 100, not from 42 to 208. These are the userspace coordinates.
+But we want to show the user a more CSS-friendly weight axis, running from 200 to 1000. The sliders on our UI will run from 200 to 1000, not from 42 to 208. These are the userspace coordinates.
 
 In the `.designspace` file, the axes are defined in *userspace* coordinates:
 
