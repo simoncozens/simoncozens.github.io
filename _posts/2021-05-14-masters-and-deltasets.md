@@ -10,21 +10,21 @@ We all know that each glyph in variable font is made up of the contour of the  d
 
 *WRONG*. Horribly wrong.
 
-<img src="https://github.com/simoncozens/simoncozens.github.io/raw/master/_posts/delta.png" width=400>
+<img src="https://github.com/simoncozens/simoncozens.github.io/raw/master/_posts/delta.png" width=600>
 
 > *Do not do this.*
 
 Or rather: deceptively correct in simple cases, which is why I always forget it, but horribly wrong in the general case. Specifically, if you put your masters in at the ends of your axes like this, it'll work:
 
-<img src="https://github.com/simoncozens/simoncozens.github.io/raw/master/_posts/axis-1.png" width=400>
+<img src="https://github.com/simoncozens/simoncozens.github.io/raw/master/_posts/axis-1.png" width=600>
 
 But the moment you start putting masters into the corners (or worse, the middle), like this:
 
-<img src="https://github.com/simoncozens/simoncozens.github.io/raw/master/_posts/axis-2.png" width=400>
+<img src="https://github.com/simoncozens/simoncozens.github.io/raw/master/_posts/axis-2.png" width=600>
 
 then it all falls apart...
 
-<img src="https://github.com/simoncozens/simoncozens.github.io/raw/master/_posts/vf-oops.png" width=400>
+<img src="https://github.com/simoncozens/simoncozens.github.io/raw/master/_posts/vf-oops.png" width=600>
 
 > *No, it's really not meant to look like that.*
 
@@ -51,7 +51,7 @@ Now think about the midpoints between masters. At wght=83.5, the `M500.ufo` mast
 
 At the other midpoint, wght=166.5, things start to get non-obvious. You might think that things are set up so that `M500.ufo` contributes all of its deltas, and then `M1000.ufo` contributes half of its deltas, but they wouldn't be half of the deltas between `M1000` and the *default* master any more, but half of the deltas between itself and `M500.ufo`, and that gets really awkward with multiple axes. Instead, the `M500.ufo` master should contribute *half* of its deltas and the `M1000.ufo` master should *also* contribute half its deltas. And as we established above, when we're at the far end of the axis, we want the `M500.ufo` master to contribute nothing. So Semibold is *not* "go to Regular and then go half way from there to Bold", but a blend of half of Regular and half of Bold. (Convince yourself that this is the case before going further.)
 
-<img src="https://github.com/simoncozens/simoncozens.github.io/raw/master/_posts/topup.png" width=400>
+<img src="https://github.com/simoncozens/simoncozens.github.io/raw/master/_posts/topup.png" width=600>
 
 > *We don't do the top picture. We do the bottom picture.*
 
@@ -59,7 +59,7 @@ So these masters provide contributions in triangular patterns, with the output b
 
 Obviously, a master at location X has 100% contribution at X. But the starts and end points is less obvious. Note that the M1000 master does *not* start contributing until *after* we've got passed the intermediate master. The mistake I've made, both times I've tried implementing this, is to treat each master independently, throw in all the deltas, and hope for the best. Laurence Penny's wonderful [Samsa](https://lorp.github.io/samsa/src/samsa-gui.html) tool helpfully shows the tents for us, and you can see clearly what I did wrong:
 
-<img src="https://github.com/simoncozens/simoncozens.github.io/raw/master/_posts/samsa-1.png" width=400>
+<img src="https://github.com/simoncozens/simoncozens.github.io/raw/master/_posts/samsa-1.png" width=600>
 
 > *The brown arrows should not be there.*
 
@@ -86,7 +86,7 @@ Samsa calls these deltasets "order 2 deltasets", because they're deltasets based
 
 The *other* mistake I make when implementing variable font builders is to just throw in all the deltas from default master to `M1000SlantItalic.ufo`, instead of doing this higher-order delta operation. This results in massive deltas, which *also* get doubly applied because now there's no sensible way to compute the start/end regions, and the end result is a complete mess:
 
-<img src="https://github.com/simoncozens/simoncozens.github.io/raw/master/_posts/samsa-2.png" width=400>
+<img src="https://github.com/simoncozens/simoncozens.github.io/raw/master/_posts/samsa-2.png" width=600>
 
 The way to fix both mistakes is to use a proper [variation model](https://github.com/fonttools/fonttools/blob/main/Lib/fontTools/varLib/models.py), which computes both the supports and the correct deltas by considering all the masters in combination and by applying higher-order deltas. Which is why I spent two days this week porting `fontTools.varLib.models`, first to [TypeScript](https://github.com/simoncozens/manumit/blob/main/ts/varmodel.ts) and then to [Rust](https://github.com/simoncozens/fonttools-rs/blob/main/src/otvar/locations.rs).
 
