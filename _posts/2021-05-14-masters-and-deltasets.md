@@ -57,13 +57,13 @@ At the other midpoint, wght=166.5, things start to get non-obvious. You might th
 
 So these masters provide contributions in triangular patterns, with the output being the sum of the contributions of all masters. These triangles - sometimes called "regions" or "tents" - have a start point, a peak point (100% contribution) and an end point. These start/peak/end tuples are also called [supports](https://en.wikipedia.org/wiki/Support_(mathematics)), because in mathematics a support is the region for which a function is active.
 
-Obviously, a master at location X has 100% contribution at X. But the starts and end points is less obvious. Note that the M1000 master does *not* start contributing until *after* we've got passed the intermediate master. The mistake I've made, both times I've tried implementing this, is to treat each master independently, throw in all the deltas, and hope for the best. Laurence Penny's wonderful [Samsa](https://lorp.github.io/samsa/src/samsa-gui.html) tool helpfully shows the tents for us, and you can see clearly what I did wrong:
+Obviously, a master at location X has 100% contribution at X. But the starts and end points is less obvious. Note that the M1000 master does *not* start contributing until *after* we've got past the intermediate master. The mistake I've made, both times I've tried implementing this, is to treat each master independently, throw in all the deltas, and hope for the best. Laurence Penny's wonderful [Samsa](https://lorp.github.io/samsa/src/samsa-gui.html) tool helpfully shows the tents for us, and you can see clearly what I did wrong:
 
 <img src="https://github.com/simoncozens/simoncozens.github.io/raw/master/_posts/samsa-1.png" width=600>
 
 > *The brown arrows should not be there.*
 
-You can see that at halfway down the weight axis, I have 100% contribution from `M500.ufo`, which is great, but I *also* have 50% contribution of `M1000.ufo`, which is not so much. You can see why I made the mistake: if the intermediate master wasn't there, I *would* want 50% of the `M1000.ufo` master to get me halfway down the weight axis. But with the intermediate master, I'm already where I want to be, so the contribution should have been zero, but instead I've ended up by applying two sets of deltas instead of one.
+You can see that at halfway down the weight axis, I have 100% contribution from `M500.ufo`, which is great, but I *also* have 50% contribution of `M1000.ufo`, which is not so great. You can see why I made the mistake: if the intermediate master wasn't there, I *would* want 50% of the `M1000.ufo` master to get me halfway down the weight axis. But with the intermediate master, I'm already where I want to be, so the contribution should have been zero, but instead I've ended up by applying two sets of deltas instead of one.
 
 So setting the starts and ends of the tents requires looking at all the masters together and determining the values for each master depends on its position in the designspace and its relationship to all the other masters.
 
