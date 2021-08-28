@@ -36,13 +36,13 @@ The next problem is that implementing it is a real pain. My approach is generall
 
 <img src="https://github.com/simoncozens/simoncozens.github.io/raw/master/_posts/movedots.png" width=600>
 
-If we're adding 100 units to each dot, we want to end up with the leftmost dot at its "natural" position (no repositioning), the middle dot at +100 and the rightmost dot at *+200*. Why can't you just do something like this?
+If we're adding 100 units to each dot, we want to end up with the leftmost dot at its "natural" position (no repositioning), the middle dot at +100 and the rightmost dot at *+200*. Why can't you just do something like this:
 
 ```
 pos BE @dots BE @dots' <100 0 0 0>
 ```
 
-And have every sequential dot add 100 units to the subsequent one? First, because that's backwards. The glyph stream comes in "right to left", and we want the *final* (leftmost) glyph to be naturally positioned, and the *first* (rightmost) glyph to have all the movement. But also, look at the whitespace to the right of the image above. For word-initial sequences you also have to know how much "margin" to add to the rightmost dot to stop the preceding word from clashing into it. So you need to know the totals *in advance*:
+and have every sequential dot add 100 units to the subsequent one? First, because *that's backwards*. Dealing with Arabic in OpenType always breaks my brain because the glyph stream comes in "right to left", and then gets reversed at the end. We want the *final* (leftmost) glyph to be naturally positioned, and the *first* (rightmost) glyph to have all the movement. But also, look at the whitespace to the right of the image above. For word-initial sequences you also have to know how much "margin" to add to the rightmost dot to stop the preceding word from clashing into it. So you need to know the totals *in advance*:
 
 ```
 pos BE' <0 0 200 0> @dots' <200 0 0 0> BE' @dots' <100 0 0 0> BE' @dots';
