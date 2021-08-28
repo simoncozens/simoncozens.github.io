@@ -61,7 +61,7 @@ This week I realised that it's actually a bit more simple than that. You don't h
 
 Why three? Well, we'll start with two, to make it easier. Let's assume that for every dot glyph, you create two variants. In fact, let's just consider the case of three-dots-below. You have `tdb`, and you create variants `tdb.lower` and `tdb.evenlower`. We look at a window of two glyphs: let's say PEH PEH.
 
-<img src="https://github.com/simoncozens/simoncozens.github.io/raw/master/_posts/movedots.png" width=400>
+<img src="https://github.com/simoncozens/simoncozens.github.io/raw/master/_posts/peh-peh.png" width=400>
 
 [Fez](https://fez-language.readthedocs.io), my font engineering language, has access to a shaping engine, so it can take the anchor attachment and cursive positioning rules we have defined already, and work out where the glyphs end up being positioned. It shapes and positions the glyphs, then hands the result to Collidoscope, and notices that there is a clash for this sequence of glyphs. We then emit a substitution rule which turns the second `tdb` into `tdb.lower`. If we had three repeated PEHs before - `BE tdb BE tdb BE tdb` - we now have `BE tdb BE tdb.lower BE tdb`. But when we evaluate the *next* two base-mark window `BE tdb.lower BE tdb`, we find that it doesn't clash, and so we don't need a rule for that. Because the OpenType shaping system moves along the glyph stream glyph by glyph, we can create rules which resolve a clash at position A by changing the glyphs at position A+1, and by the time we get to position A+1, everything is fixed.
 
