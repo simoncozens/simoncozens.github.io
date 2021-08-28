@@ -51,7 +51,7 @@ pos BE' <0 0 100 0> @dots' <100 0 0 0> BE' @dots';
 
 (Obviously you don't have to do either of those things for purely vertical shifts, but remember that I started the implementation with *horizontal* shifts and then moved to mostly vertical and slightly horizontal, so this is the box I had painted myself into.)
 
-You have to compute all the possibly sequences of up to whatever length you want to support, and it's all a mess. 
+You have to compute all the possible sequences of up to whatever length you want to support, and it's all a mess. 
 
 But the reason why I finally gave up on this implementation and replaced it is because it's a bit of a big hammer: you shouldn't move dots *just because* there are two dotted glyphs in a row. You should move dots because there's a problem you want to fix. Making the dots move vertically has helped, but we still have the issue that multiple dots can still clash because they've coincidentally ended up at the same height because, due to their differing anchor positions, they originally started at *different* heights.
 
@@ -73,7 +73,7 @@ So why do we need a window of *three* glyphs? Well, there was another problem wi
 
 You try to finesse it by dropping the dots when you see CHEH MEEM, but then you end up hitting the dots of the second CHEH.
 
-Now do that for every combination of your nine dots above (`sda`, `sda.higher`, `sda.evenhigher`, `dda`...) and your nine dots below, on all combinations of your `BE`, `TE`, and `JIM` variants - not forgetting that `HAYC`, `SAD`, `DAL`, `RE`, `AIN`, `FE`, `QAF` and `TOE` *also* take some combination of dots, and that the `toeda` on ڈ and the comma on heh are basically "dots" too that you need to avoid clashes with - plus an optional "thin" glyph in the middle, plus *another* base-dot combination, and you have around half a million cases to check. Fortunately, we have a computer.
+But if you have a collision detector, it doesn't matter whether the dots are clashing with each other or with other bases - you can just try different dot placements and see which one has no collisions. Just do that for every combination of your nine dots above (`sda`, `sda.higher`, `sda.evenhigher`, `dda`...) and your nine dots below, on all combinations of your `BE`, `TE`, and `JIM` variants - not forgetting that `HAYC`, `SAD`, `DAL`, `RE`, `AIN`, `FE`, `QAF` and `TOE` *also* take some combination of dots, and that the `toeda` on ڈ and the comma on heh are basically "dots" too that you need to avoid clashes with - plus an optional "thin" glyph in the middle, plus *another* base-dot combination, and you have around half a million cases to check. Fortunately, we have a computer.
 
 (As it happens, clashes in a three-glyph window are ridiculously rare, and when I emitted the rules for them and tried to build the font, my GSUB table overflowed to the point of crashing `fontmake`. So I just moved some of the anchors around instead.)
 
