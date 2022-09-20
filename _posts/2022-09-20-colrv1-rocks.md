@@ -6,16 +6,16 @@ title: COLRv1 and Rethinking Variations
 
 <style>
 @font-face {
-        font-family: "Test";
-        src: url(https://github.com/simoncozens/simoncozens.github.io/raw/master/_posts/fire.ttf);
+        font-family: "FireEmoji";
+        src: url(fire.ttf);
       }
       @keyframes vars {
         0% {font-variation-settings: "ANIM" 0; }
         100% {font-variation-settings: "ANIM" 263; }
       }
       :root {--dur: 3s; }
-      .test {
-        font-family: "Test";
+      .fireemoji {
+        font-family: "FireEmoji";
         font-size: 128pt;
         margin: 30px;
         animation: vars var(--dur) infinite linear both;
@@ -28,7 +28,7 @@ OK, here's the lead - you can do amazing things with COLRv1 fonts:
 
 In case you don't believe me, grab the latest version of Chrome, go to `chrome://flags/` and turn on "Variable COLRv1 Fonts" and take a look at this:
 
-<div class="test">a</div>
+<div class="fireemoji">a</div>
 
 In this post I'm going to run through what COLRv1 is, how I did the above, and also what that means for how we think about variable fonts.
 
@@ -145,4 +145,4 @@ This is something that's actually much easier to surface in our font editors tha
 
 In short, there's a lot more to explore in colour fonts than I think we have explored so far; and I think there's actually a lot more to explore in variable fonts than I think we've explored so far.
 
-Or we could just enjoy the pretty emojis. <span class="test">a</span>
+Or we could just enjoy the pretty emojis. <span class="fireemoji">a</span>
