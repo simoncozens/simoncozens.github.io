@@ -3,6 +3,9 @@ published: true
 layout: post
 title: COLRv1 and Rethinking Variations
 ---
+OK, here's the lead - you can do amazing things with COLRv1 fonts:
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">This is a glyph from a variable font, animated with CSS. COLRv1 enables us to do some amazing things.<br>Blog post coming soon. <a href="https://t.co/sUi1pj78AE">pic.twitter.com/sUi1pj78AE</a></p>&mdash; Simon Cozens (@simoncozens) <a href="https://twitter.com/simoncozens/status/1571967476623196160?ref_src=twsrc%5Etfw">September 19, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 <style>
 @font-face {
@@ -21,10 +24,6 @@ title: COLRv1 and Rethinking Variations
         animation: vars var(--dur) infinite linear both;
       }
 </style>
-
-OK, here's the lead - you can do amazing things with COLRv1 fonts:
-
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">This is a glyph from a variable font, animated with CSS. COLRv1 enables us to do some amazing things.<br>Blog post coming soon. <a href="https://t.co/sUi1pj78AE">pic.twitter.com/sUi1pj78AE</a></p>&mdash; Simon Cozens (@simoncozens) <a href="https://twitter.com/simoncozens/status/1571967476623196160?ref_src=twsrc%5Etfw">September 19, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 In case you don't believe me, grab the latest version of Chrome, go to `chrome://flags/` and turn on "Variable COLRv1 Fonts" and take a look at this:
 
