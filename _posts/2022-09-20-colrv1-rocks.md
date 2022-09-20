@@ -7,7 +7,7 @@ title: COLRv1 and Rethinking Variations
 <style>
 @font-face {
         font-family: "FireEmoji";
-        src: url(fire.ttf);
+        src: url(/assets/fire.ttf);
       }
       @keyframes vars {
         0% {font-variation-settings: "ANIM" 0; }
