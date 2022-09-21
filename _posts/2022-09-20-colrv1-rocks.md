@@ -79,7 +79,7 @@ PaintColrLayers([
 ])
 ```
 
-* Last, but by *no* means least, there is `PaintComposite` which composites one set of paints onto another, using any of the W3C [Compositing and Blending Level 1][https://www.w3.org/TR/compositing-1/] compositing modes. That means alpha blending, boolean  operations, and all kinds of graphics wizardry that I don't claim to understand.
+* Last, but by *no* means least, there is `PaintComposite` which composites one set of paints onto another, using any of the W3C [Compositing and Blending Level 1](https://www.w3.org/TR/compositing-1/) compositing modes. That means alpha blending, boolean  operations, and all kinds of graphics wizardry that I don't claim to understand.
 
 And the best bit? *All of these paints have variable counterparts*, so that you can change how they operate across the scope of the designspace. So if you want to add a shadow to your glyph which gets bigger as you go down the `SHDW` axis, you don't need to draw two masters of your shadow path and interpolate between them; instead, you can draw one glyph representing the shadow, and you can use `PaintVarScale` to enlarge it, skew it, or whatever else as the font varies:
 
@@ -97,7 +97,7 @@ Well, when I say "you can do that", obviously you *can* do that in the sense tha
 
 So how did I manage the fire emoji above, then? There's an file format called [Lottie](https://lottiefiles.com), which is a JSON based format for 2D animation. You can get After Effects plugins which export it, and build JavaScript players to show them on the web, or whatever. But you can also turn it into fonts.
 
-Because COLRv1 is built around fairly standard graphics primitives, and Lottie is built around fairly standard graphics primitives, it's not too difficult to convert Lottie into OpenType. As we parse a Lottie file, we go through a number of steps: the Shape layers get converted into Bezier paths, and we write those onto a FontTools pen and store them as separate glyphs; all the other layers get converted into COLRv1 Paints, first through my Python-like Paint syntax, which then turns into the JSON-like Paint syntax used by FontTools' `colrLib.builder`, and from there into an actual COLRv1 table. Finally, `fontTools.fontBuilder` is used to create the other tables which make up an OpenType font.
+Because COLRv1 is built around fairly standard graphics primitives, and Lottie is built around fairly standard graphics primitives, it's not too difficult to write something to [convert Lottie into OpenType](https://github.com/simoncozens/lottie2vf). As we parse a Lottie file, we go through a number of steps: the Shape layers get converted into Bezier paths, and we write those onto a FontTools pen and store them as separate glyphs; all the other layers get converted into COLRv1 Paints, first through my Python-like Paint syntax, which then turns into the JSON-like Paint syntax used by FontTools' `colrLib.builder`, and from there into an actual COLRv1 table. Finally, `fontTools.fontBuilder` is used to create the other tables which make up an OpenType font.
 
 (`fontmake` is cool and all, but more people should use `fontTools.fontBuilder` to build fonts by hand. You don't *actually* need UFOs to make a font, and sometimes it's easier not to.)
 
