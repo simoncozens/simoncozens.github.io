@@ -123,7 +123,7 @@ plt.ylim((400, 50))
     
 
 
-That's almost good enough. The skeleton is a bit rough, and we've split the middle stroke into three separate lines, which isn't what we want. As a later refinement, we could check the position and direction of each stroke and merge together any strokes which meet at a point and continue in the same direction and tangent. But to do that we need to get our Beziers, so let's do that. We'll use the path-fitting algorithm in my Beziers.py library. (Did I write a clever path-fitting algorithm? Of course not, I stole it from [Inkscape](https://inkscape.gitlab.io/inkscape/doxygen/bezier-utils_8cpp_source.html). We deliberately use a high error value to smooth the curve a bit, and use the `tidy` method to add extrema.
+That's almost good enough. The skeleton is a bit rough, and we've split the middle stroke into three separate lines, which isn't what we want. As a later refinement, we could check the position and direction of each stroke and merge together any strokes which meet at a point and continue in the same direction and tangent. But to do that we need to get our Beziers, so let's do that. We'll use the path-fitting algorithm in my Beziers.py library. (Did I write a clever path-fitting algorithm? Of course not, I stole it from [Inkscape](https://inkscape.gitlab.io/inkscape/doxygen/bezier-utils_8cpp_source.html).) We deliberately use a high error value to smooth the curve a bit, and use the `tidy` method to add extrema.
 
 
 ```python
