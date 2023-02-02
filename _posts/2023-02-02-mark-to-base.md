@@ -15,9 +15,12 @@ Let's start with a simple example. I'm going to use (a very shortened form of) t
 and we want to support the following 36 conjuncts:
 
 > န္က က္က လ္က တ္က မ္က ဗ္က ပ္က သ္က စ္က
+>
 > န္န က္န လ္န တ္န မ္န ဗ္န ပ္န သ္န စ္န 
+> 
 > န္ပ က္ပ လ္ပ တ္ပ မ္ပ ဗ္ပ ပ္ပ သ္ပ စ္ပ 
-< န္စ က္စ လ္စ တ္စ မ္စ ဗ္စ ပ္စ သ္စ စ္စ 
+> 
+> န္စ က္စ လ္စ တ္စ မ္စ ဗ္စ ပ္စ သ္စ စ္စ 
 
 How many extra glyphs do you need to add to the font? For some designers, the answer would be obvious: if you want to support 36 new conjuncts, you're going to need 36 new glyphs.
 In fact, the answer is actually *five*.
@@ -28,7 +31,7 @@ Now, part of a well-organised font development process is realising that these t
 
 Let's clear this up, because it's a mistake I see a lot: anything that has a Unicode codepoint, that you want the user to be able to address using that Unicode codepoint, needs to have its own glyph. This is so that the Unicode character gets mapped into a glyph in the font. You might then do various substitutions or whatever with that glyph and turn it into something else, but you have to start *somewhere*.
 
-But the inverse is also true: *anything that does not have a Unicode codepoint does not need its own glyph*, because you're going to reach it through other means - various substitutions or whatever. And this means that conjuncts, which are normally produced via virama combinations, don't need their own glyphs. We can create them another way.
+But the converse is also true: *anything that does not have a Unicode codepoint does not need its own glyph*, because you're going to reach it through other means - various substitutions or whatever. And this means that conjuncts, which are normally produced via virama combinations and which don't have their own Unicode codepoints, *don't need their own glyphs*. We can create them another way.
 
 In the case of the Myanmar examples above, we are given text like "KA VIRAMA PA" which (being Unicode codepoints) gets mapped to glyphs `ka-myanmar|virama-myanmar|pa-myanmar` , and we can use OpenType substitution rules:
 
