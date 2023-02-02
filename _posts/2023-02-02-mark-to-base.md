@@ -79,7 +79,7 @@ When the conjunct is rendered, the shaping engine will swing the subjoined conso
 
 Well, to start with, they don't *all* join together. Noto Sans Devanagari, for example, has 874 glyphs. A good hundred of these can just go; they don't need to be in the font. There are things like `khh-deva` which is literally just a precomposed form of `kh-deva|nukta-deva`. If we used anchor attachment to put the nukta on the right place in the `kh-deva`, job done. Even things like attaching u- and uu-matras could be done *in many cases* (but not all) with anchor attachment, instead of precomposed glyphs.
 
-"But that's not exactly conjuncts, is it?" No, it's not, but the same principle applies. `d_ra-deva` doesn't need to be there; it could just be `da-deva|rakar-deva` and attach the rakar, and so on. You may need OpenType rules to select the appropriate rakar form (length, angle, etc.) to fit the base, but if you draw these "appendages" as components, then you've kind of made that selection already.
+"But that's not exactly conjuncts, is it?" No, it's not, but the same principle applies. `d_ra-deva` doesn't need to be there; it could just be `da-deva|rakar-deva` and attach the rakar, and so on. You may need to draw several different rakar glyphs with different lengths, angles, etc., and then use OpenType rules to select the appropriate form to go with each given base. But if you draw these add-on bits like u vowels and rakars as components, then you've already know which forms to choose for each base glyph, so writing the OpenType code isn't that hard.
 
 And this is where the idea of planning comes in. John Hudson says that the first tool he uses when designing an Indic font is a spreadsheet, and I can understand this now: work out what glyphs derive from other glyphs, what portions of glyphs can be reused as components and - just as importantly - what portions can't. As a programmer, I naturally think in terms of trying to [arrange things into reusable blocks](https://en.wikipedia.org/wiki/Don't_repeat_yourself) as much as possible
 When you're designing a system, you think in terms of using reusable components as much as you can, because by doing so you reduce the total number of bits of the system you have to maintain, and you also ensure that when you make a change to one of the components it is reflected everywhere throughout the system - you don't have to make the change more than once. So componentization is way more maintainable.
@@ -87,9 +87,10 @@ When you're designing a system, you think in terms of using reusable components 
 But course type design is somewhat different - I know that glyphs are *not* made up of interchangeable building blocks in the way that software programs are, and that the addition of one component may require a change of shape to make room, or a change of connecting stroke, or whatever.
 
 > <img src="https://github.com/simoncozens/simoncozens.github.io/raw/master/images/nnn.png">
+> 
 > It would be nice if these were the same base. But they're not.
 
-Even so, however, there will be places where you *can* use this technique (especially, for example, in fonts supporting multi-level conjunct stacks). So planning ahead, spotting potential commonalities between glyphs (maybe several glyphs get adjusted in the *same way*, so these could be split into a separate base glyph), and trying to think systematically about component reuse and anchor attachment is the only way to avoid "glyphset explosion" in a font with many conjunct glyphs.
+Even so, however, there will be places where you *can* use this technique (especially, for example, in fonts supporting multi-level conjunct stacks). So planning ahead, spotting potential commonalities between glyphs (maybe several glyphs get adjusted in the *same way* when different things are added to them, so these could be split into a separate base glyph), and trying to think systematically about component reuse and anchor attachment is the only way to avoid "glyphset explosion" in a font with many conjunct glyphs.
 
 Let's finish by thinking about why you might, and might not, want to use the anchor attachment technique to reduce your glyphset.
 
