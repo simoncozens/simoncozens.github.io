@@ -76,7 +76,7 @@ feature ccmp {
 } ccmp;
 ```
 
-We'll look at how the add/delete lookups are defined in a moment, but let's just check our understanding of what this is doing. Because it *looks* like it adds a glyphs and deletes the glyph, and surely that does absolutely nothing, right? The trick to understanding this is what I call the "paper tape" model of OpenType layout and you can read more about it [here](https://simoncozens.github.io/fonts-and-layout//features.html#lookup-application).
+We'll look at how the add/delete lookups are defined in a moment, but let's just check our understanding of what this is doing. Because it *looks* like it adds a glyph and deletes the glyph, and surely that does absolutely nothing, right? The trick to understanding this is what I call the "paper tape" model of OpenType layout and you can read more about it [here](https://simoncozens.github.io/fonts-and-layout//features.html#lookup-application).
 
 In this case, the "read head" of our tape machine marches along the glyph stream, looking for two things that match - a base and an `eMatra-khoj` glyph - *while ignoring all marks apart from `eMatra-khoj`*. When it finds those two things, it will call `AddE` at the location of the base, and call `DeleteMatra` at the location of the `eMatra-khoj` - and because we are ignoring marks apart from `eMatra-khoj`, these two locations can be quite a number of glyphs apart. This is what we want:
 
@@ -113,7 +113,7 @@ The key is that when we did `AddE`, we *added an extra glyph to the glyph stream
 
 <img src="https://github.com/simoncozens/simoncozens.github.io/raw/master/images/advanced-reordering-2.png">
 
-The read head now sits at the position of the glyph *we just added*. `DeleteMatra` looks at the glyph it points to, finds that it's an `eMatra-khoj`, and happily deletes it, leaving us exactly back where we started; oh, the embarrassment. (If you use [Crowbar](http://corvelsoftware.co.uk/crowbar/) for OpenType debugging - and you *should*, if you're doing this kind of stuff - you can see it happening step by step, which really, really helps understanding what's going on.)
+The read head of the `DeleteMatra` application now sits at the position of the glyph *we just added*. `DeleteMatra` looks at the glyph it points to, finds that it's an `eMatra-khoj`, and happily deletes it, leaving us exactly back where we started; oh, the embarrassment. (If you use [Crowbar](http://corvelsoftware.co.uk/crowbar/) for OpenType debugging - and you *should*, if you're doing this kind of stuff - you can see it happening step by step, which really, really helps understanding what's going on.)
 
 Now it happens to be the case that, in the underlying OpenType format, you can actually specify which order the lookups in a contextual substitution apply. If we were able to say "Call `DeleteMatra` first at the second location, and then call `AddE` afterwards at the first location" - and we can, in the binary format - then everything would be fine. The change in the position of the glyph stream would happen after we are done deleting things, so it wouldn't matter. But unfortunately we *can't* express the order of application using the Adobe feature syntax. (I opened [an issue](https://github.com/adobe-type-tools/afdko/issues/1167) about this three years ago, but nothing happened.) So we need to get clever.
 
