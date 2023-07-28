@@ -56,7 +56,7 @@ Another issue with Khojki is that as well as taking potentially a nukta and pote
 
 Now the ligature approach starts to get really horrible:
 
-```
+```fea
 sub nukta-khoj shadda-khoj eMatra-khoj by eMatra_nukta_shadda-khoj;
 sub nukta-khoj eMatra-khoj by eMatra_nukta-khoj;
 sub shadda-khoj eMatra-khoj by eMatra_shadda-khoj;
@@ -67,7 +67,7 @@ Three extra glyphs per vowel; and to support our alternate nukta forms, two more
 
 But I admit that the reordering here is tricky, and it had me scratching my head for a little while. What we want to do is ignore the other optional marks, reach out and grab the vowel sign and pull it next to the base. Then we reorder our vowel signs, then we are done and don't need any ligatures. But how do we do that? The basic idea goes like this. (I'm just going to show it for the `eMatra-khoj` glyph; other vowels are analogous):
 
-```
+```fea
 feature ccmp {
     lookup GrabMatra {
         lookupflag UseMarkFilteringSet [eMatra-khoj];
@@ -84,7 +84,7 @@ In this case, the "read head" of our tape machine marches along the glyph stream
 
 `AddE` will be defined like this:
 
-```
+```fea
 lookup AddE {
     sub ka-khoj by ka-khoj eMatra-khoj;
     sub kha-khoj by kha-khoj eMatra-khoj;
@@ -97,7 +97,7 @@ This is boring and repetitive but at least it's easy to understand, and hopefull
 
 Now for the tricky bit. When I came to implement `DeleteMatra`, the first thing I tried was:
 
-```
+```fea
 lookup DeleteMatra {
     sub eMatra-khoj by NULL;
 } DeleteMatra;
