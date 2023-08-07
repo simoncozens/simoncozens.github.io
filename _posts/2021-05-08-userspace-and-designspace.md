@@ -80,7 +80,7 @@ Right. Now we get on to defining the relationship between userspace and designsp
     </axis>
 ```
 
-Inside the binary font, this mapping is stored in the `avar` table, which looks like this:
+Inside the binary font, this mapping is stored in the `avar` table, which (in TTX notation) looks like this:
 
 ```xml
     <segment axis="wght">
