@@ -10,7 +10,7 @@ For example, the whole premise of machine learning is that if you get things wro
 
 I recently demoed some code which automatically creates kern rules to compact the word-shapes of a Nastaliq font, like this:
 
-<img src="https://github.com/simoncozens/simoncozens.github.io/raw/master/_posts/nastaliq-kerning-1.png" width=640>
+<img src="/images/nastaliq-kerning-1.png" width=640>
 
 and I am here to tell you that the impressive-looking result is actually just the result of doing something dumb-stupid lots of times.
 
@@ -20,17 +20,17 @@ How do we make a Nastaliq auto-kerner? I'm going to clean up and release the ful
 
 In Nastaliq style, the final glyph of a sequence is placed on the baseline, but preceding glyphs are connected almost diagonally so that they rise up above the baseline, like so:
 
-<img src="https://github.com/simoncozens/simoncozens.github.io/raw/master/_posts/nastaliq-kerning-2.png">
+<img src="/images/nastaliq-kerning-2.png">
 
 This is a made up sequence, but you can see that the final glyph is "up in the air".
 
 But with a shorter or longer sequence, that initial shin (س) may appear at a different height:
 
-<img src="https://github.com/simoncozens/simoncozens.github.io/raw/master/_posts/nastaliq-kerning-3.png" width=640>
+<img src="/images/nastaliq-kerning-3.png" width=640>
 
 Here is the challenge of Nastaliq kerning: when another word appears before a "high" sequence like these, there might be a lot of unused room between the baseline and the initial glyph (the one on the right) in a sequence.
 
-<img src="https://github.com/simoncozens/simoncozens.github.io/raw/master/_posts/nastaliq-kerning-4.png" width=640>
+<img src="/images/nastaliq-kerning-4.png" width=640>
 
 Just like in Latin kerning, these large gaps are considered unsightly, and the space should be filled up. So we need a kern. The only problem, of course, is that this kern is not just pair-wise between the glyphs س and ر, but is *highly* contextual, and depends on the height of the س, which is determined by the rest of the sequence. Imagine if, when writing a Latin kern pair, you had to take the *whole rest of the word into account*. How would you do that so that it worked for *every possible word*?
 
@@ -48,7 +48,7 @@ Let's assume for now that, by some magic, we know the height that a right glyph 
 
 Conceptually, this is very simple. We take the Bezier paths for the two glyphs, and we slide the right glyph horizontally until it comes within a requested distance of the left glyph.
 
-<img src="https://github.com/simoncozens/simoncozens.github.io/raw/master/_posts/nastaliq-kerning-5.png" width=640>
+<img src="/images/nastaliq-kerning-5.png" width=640>
 
 And it really is as dumb-stupid as that. I take the Bezier paths, keep moving the right glyph left, check the distance at the closest point - which I do in a very dumb-stupid way by measuring the distance between every segment on one path and every segment on the other and finding the minimum, because computer run time is cheap and programmer thinking time is expensive - and repeat, stopping when I have got to the appropriate distance.
 
@@ -66,7 +66,7 @@ Again, let's break this down into two subproblems.
 
 What is the "height" of the left glyph in a pair, that is, the height of the initial (rightmost) glyph in a sequence? From the picture below, we can see that we just sum the *rise* - the distance between exit and entry anchors - for all of the glyphs in the sequence after the initial glyph.
 
-<img src="https://github.com/simoncozens/simoncozens.github.io/raw/master/_posts/nastaliq-kerning-6.png">
+<img src="/images/nastaliq-kerning-6.png">
 
 Given the sequence and the total height - in this case, 685 units high - and remembering that we magically have a kern table for every possible height, we can very easily construct our contextual rule:
 
@@ -95,13 +95,13 @@ We make four more approximations to simplify matters.
 * We notice that once the gap is larger than the size of the tallest final/isolate glyph, any higher sequences are going to be identical. So in our case, everything over 600 units high will just dispatch to `kerntable_at_600`.
 * Any short sequences on the left whose final glyphs are "bari-ye-like glyphs", which have large RSBs which sweep back over the glyph sequence, don't get any kerning. This is because those bari-ye-like glyphs may well end up occupying the empty space, like so:
 
-<img src="https://github.com/simoncozens/simoncozens.github.io/raw/master/_posts/nastaliq-kerning-7.png" width=640>
+<img src="/images/nastaliq-kerning-7.png" width=640>
 
 We still have to compute seven complete kern tables, each containing kern values for every initial glyph against every final/isolate - and it still takes around half an hour on my computer to produce - but when compressed they come to around 11,000 lines of feature code, which is a lot fewer than the several *million* lines I started this experiment with.
 
 And the result is quite pleasant
 
-<img src="https://github.com/simoncozens/simoncozens.github.io/raw/master/_posts/nastaliq-kerning-8.png" width=480>
+<img src="/images/nastaliq-kerning-8.png" width=480>
 
 even if the implementation is as dumb as a box of rocks.
 
