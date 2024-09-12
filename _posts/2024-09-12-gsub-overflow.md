@@ -106,7 +106,7 @@ A huge lookup, which is going to overflow. It can't be expressed as format 2 bec
 
 The usual answer would be to rewrite the rules to split `@All_Letters` into non-overlapping classes:
 
-```
+```fea
 sub @dflt @dflt @dflt' by @alt1; # Rule 1a
 sub @dflt @alt1 @dflt' by @alt1; # Rule 1b
 sub @dflt @alt2 @dflt' by @alt1; # Rule 1c
@@ -144,7 +144,7 @@ lookup third_letter_to_alt2 {
 
 And finally we can write the first two rules of our main routine like this:
 
-```
+```fea
 sub @dflt' lookup third_letter_to_alt1;
 sub @alt1' lookup third_letter_to_alt2;
 ```
