@@ -1,7 +1,7 @@
 ---
 published: true
 layout: post
-title: "Avoid GSUB Overflows"
+title: "Avoiding GSUB Overflows"
 ---
 
 Here's some techniques adapted from an email I sent recently - a project with complicated contextual substitution rules was having problems with GSUB tables overflowing and refusing to compile. Follow me for a deep dive into contextual chaining rules, binary layout, and why compilers are stupid so we have to be clever...
