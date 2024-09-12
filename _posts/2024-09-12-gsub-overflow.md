@@ -43,7 +43,7 @@ But if we do this:
   	sub [A B] [E D]     z'        F;   # Rule 2
 ```
 
-Then we have a problem - we now have three different lookahead classes (`[A B]`, `[C D]`, `[E D]`) but glyph `D` appears in both of them. Overlapping classes cannot compile to format 2, so we lose.
+Then we have a problem - we now have three different lookbehind classes (`[A B]`, `[C D]`, `[E D]`) but glyph `D` appears in both of them. Overlapping classes cannot compile to format 2, so we lose.
 
 To fix this we can split things up:
 
@@ -70,7 +70,7 @@ Another example:
  	sub [@Class2 @Class3]' @Class3' @Class3; # Rule 3
 ```
 
-This is OK, right? Each glyph is in a separate class, nothing overlaps, so this can be format 3? No! AFDKO "classes" are just for _our_ use. The _compiler_'s classes are what matters.
+This is OK, right? Each glyph is in a separate class, nothing overlaps, so this can be format 2? No! AFDKO "classes" are just for _our_ use. The _compiler_'s classes are what matters.
 
 What the compiler sees is that the lookbehind sequence to rule 2 starts with `[C D]` and the lookbehind sequence to rule 3 starts with `[C D E F],` and `C` and `D` are in both so they are overlapping, so can't be expressed as format 2. We must split it up again:
 
@@ -151,7 +151,7 @@ sub @alt1' lookup third_letter_to_alt2;
 
 Think about what happens when this is processed. We look for the first glyph in our sequence; if it's a default letter, then we go to `third_letter_to_alt2`, which matches three _general_ sets of glyphs, and then on the third class it jumps to another routine, `dflt_to_alt1`. This lookup will only substitute glyphs in `@dflt`, so the fact that we jumped there after matching `@All_Letters` doesn't matter.
 
-Having written our lookups this way, there are no overlapping classes. All of these contextual lookups will be stored as format 3 and so will be much smaller.
+Having written our lookups this way, there are no overlapping classes. All of these contextual lookups will be stored as format 2 and so will be much smaller.
 
 I wish we didn't have to write our feature code with the binary layout in mind, and it would be great if the compiler could do this for us, but it can't, so we have to do a lot of thinking and planning to make sure that each lookup has non-overlapping classes. In general, I find that chaining lookups as we have done above - start in one place, then jump to another lookup to match something else, then jump from there to another lookup - is a good technique to help us get the format that we want.
 
