@@ -31,7 +31,7 @@ If `elegantTextHeight` is set to true then *the vertical metrics in the font are
 * If `elegantTextHeight` is true, and `includeFontPadding` is false, text is clipped to `1900/2048` multiplied by the font's UPM at the top and `-500/2048` multiplied by the font's UPM at the bottom.
 * If `elegantTextHeight` is true, and `includeFontPadding` is true, text is clipped to `2500/2048` multiplied by the font's UPM at the top and `-1000/2048` multiplied by the font's UPM at the bottom.
 
-Oh, and which of these flags is on or off by default depends on Android (and Comppose, if your app is using that) version. In Android 15, [elegantTextHeight was turned on by default](https://developer.android.com/about/versions/15/behavior-changes-15#elegant-text-height). In *Compose* 1.2.0-alpha05, [includeFontPadding was turned off by default](https://developer.android.com/jetpack/androidx/releases/compose-ui#1.2.0-alpha05) *for Compose widgets*; in 1.2.0-beta01, [it was turned on by default](https://developer.android.com/jetpack/androidx/releases/compose-ui#1.2.0-beta01).
+Oh, and which of these flags is on or off by default depends on Android (and Compose, if your app is using that) version. In Android 15, [elegantTextHeight was turned on by default](https://developer.android.com/about/versions/15/behavior-changes-15#elegant-text-height). In *Compose* 1.2.0-alpha05, [includeFontPadding was turned off by default](https://developer.android.com/jetpack/androidx/releases/compose-ui#1.2.0-alpha05) *for Compose widgets*; in 1.2.0-beta01, [it was turned on by default](https://developer.android.com/jetpack/androidx/releases/compose-ui#1.2.0-beta01).
 
 All right, now the kicker.
 
@@ -42,6 +42,6 @@ All that I have told you is true *for an individual font*. But if you are using 
 
 Apparently `fallbackLineSpacing` is true by default.
 
-> I made a custom font and a bunch of Android apps (and spent much too long reading Android's source code) to discover all this...
+I made a custom font and a bunch of Android apps (and spent much too long reading Android's source code) to discover all this...
 
-![](https://simoncozens.github.io/images/android.png)
+![A custom font shown clipping in various Android configurations](https://simoncozens.github.io/images/android.png)
