@@ -37,7 +37,7 @@ I've been basically ignoring colour fonts since forever, but recently I got [ner
 
 If you've seen or worked with colour fonts before, you may know how COLRv0 worked: each COLRv0 glyph is made up of coloured layers, which are each independent glyphs. You define a colour palette (or more than one), and you tell the font to associate a colour with each layer, and then they all get composed together.
 
-<img src="https://github.com/simoncozens/simoncozens.github.io/raw/master/_posts/colrv0.png" width=600>
+<img src="/images/colrv0.png" width=600>
 
 And that's basically all you can do.
 

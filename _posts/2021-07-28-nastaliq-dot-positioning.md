@@ -14,7 +14,7 @@ I've written about the [kerning strategy](https://simoncozens.github.io/nastaliq
 
 So much of the first part of this week was spent finding situations that weren't working, fixing the obvious bugs, but then waiting for the font to re-build to check for any side-effects on other positioning pairs. Over and over again. While waiting for the build I tried all kinds of things to make the auto-kerner faster - I learnt a lot about [Cython](https://cython.readthedocs.io/en/latest/) and compiling Python to C, and I started moving some of the underlying tools to Rust, but not enough to replace what I had - but nothing really worked. So that put me in a bad mood right from the start. In the end, though, I got something that looks much better.
 
-<img src="https://github.com/simoncozens/simoncozens.github.io/raw/master/_posts/kerning-fix.png" width=600>
+<img src="/images/kerning-fix.png" width=600>
 
 > Those sequences aren't intended to make sense; they're just testing the autokerner.
 
@@ -22,19 +22,19 @@ Then I spent a day writing Rust to calm myself down, before plunging into the se
 
 I started the Nastaliq project knowing *exactly* how I wanted to handle dot positioning. But it was *hard*. So I took a short-cut and got something that *kind of* worked. The short-cut was based on the principles from the [Linotype Qalmi patent](https://github.com/simoncozens/nastaliq-engineering/blob/master/GB2208556A.pdf). The idea there is that when you have repeated dots in a sequence, you move successive dots horizontally to avoid them clashing. So that's what I implemented:
 
-<img src="https://github.com/simoncozens/simoncozens.github.io/raw/master/_posts/movedots.png" width=600>
+<img src="/images/movedots.png" width=600>
 
 There are several problems with this approach. The first, and most serious, is that *that isn't what Nastaliq script does*. Calligraphers will more often try to reposition things vertically rather than horizontally. So that wasn't a good start. I guess the Linotype people did what they could with the technology at the time, but there's no reason to do that now. Moving things horizontally actually stores up more problems for you - what do you do about things like لتت...? The dots have nowhere to go. So I changed it to moving dots vertically but with a *slight* horizontal shift to avoid clashing. (Because different glyphs have their anchors are different heights, without a horizontal shift, just raising a dot vertically might mean that it ends up clashing into the next dot which is higher up because of its anchor placement - the very thing you were trying to avoid.)
 
 But multiple horizontal shifts still mount up, meaning that with enough consecutive dots...
 
-<img src="https://github.com/simoncozens/simoncozens.github.io/raw/master/_posts/teh-clash.png" width=600>
+<img src="/images/teh-clash.png" width=600>
 
 Of course, you're not going to get Urdu words like that, but it's a hint that something is wrong. And I want this to work for arbitrary input as much as possible, for example when to allow foreign words to be transcribed into Urdu script - so a dictionary approach is not good enough.
 
 The next problem is that implementing it is a real pain. My approach is generally that you position things using positioning rules. But in OpenType, you can't contextually position a glyph based on the *position* of other glyphs. You only have access to the glyph names. So, going back to the horizontal-shift example because it's easier to understand, to position a stream of repeated dots - let's say the three PEH example above - you have to do it *all at once*. Look at that example again:
 
-<img src="https://github.com/simoncozens/simoncozens.github.io/raw/master/_posts/movedots.png" width=600>
+<img src="/images/movedots.png" width=600>
 
 If we're adding 100 units to each dot, we want to end up with the leftmost dot at its "natural" position (no repositioning), the middle dot at +100 and the rightmost dot at *+200*. Why can't you just do something like this:
 
@@ -61,7 +61,7 @@ This week I realised that it's actually a bit more simple than that. You don't h
 
 Why three? Well, we'll start with two, to make it easier. Let's assume that for every dot glyph, you create two variants. In fact, let's just consider the case of three-dots-below. You have `tdb`, and you create variants `tdb.lower` and `tdb.evenlower`. We look at a window of two glyphs: let's say PEH PEH.
 
-<img src="https://github.com/simoncozens/simoncozens.github.io/raw/master/_posts/peh-peh.png">
+<img src="/images/peh-peh.png">
 
 [Fez](https://fez-language.readthedocs.io), my font engineering language, has access to a shaping engine, so it can take the anchor attachment and cursive positioning rules we have defined already, and work out where the glyphs end up being positioned. It shapes and positions the glyphs, then hands the result to Collidoscope, and notices that there is a clash for this sequence of glyphs. We then emit a substitution rule which turns the second `tdb` into `tdb.lower`. If we had three repeated PEHs before - `BE tdb BE tdb BE tdb` - we now have `BE tdb BE tdb.lower BE tdb`. But when we evaluate the *next* two base-mark window `BE tdb.lower BE tdb`, we find that it doesn't clash, and so we don't need a rule for that. Because the OpenType shaping system moves along the glyph stream glyph by glyph, we can create rules which resolve a clash at position A by changing the glyphs at position A+1, and by the time we get to position A+1, everything is fixed.
 
@@ -69,7 +69,7 @@ This also has the advantage that we don't create rules when they aren't needed, 
 
 So why do we need a window of *three* glyphs? Well, there was another problem with my original repeated dot mover, which is that sometimes you can have clashes between dots even if they're not strictly sequential. "Thin" glyphs like medial MEEM in between your dotted glyphs can also cause problems. Imagine the admittedly nasty sequence CHEH MEEM CHEH:
 
-<img src="https://github.com/simoncozens/simoncozens.github.io/raw/master/_posts/cheh-meem-cheh.png">
+<img src="/images/cheh-meem-cheh.png">
 
 You try to finesse it by dropping the dots when you see CHEH MEEM, but then you end up hitting the dots of the second CHEH.
 
